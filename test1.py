@@ -44,10 +44,9 @@ def task6():
     print([word[0] for word in st.split()])
 
 
-if __name__ == '__main__':
-    task1()
-    task2()
-    task3()
-    task4()
-    task5()
-    task6()
+task1()
+task2()
+task3()
+task4()
+task5()
+task6()
