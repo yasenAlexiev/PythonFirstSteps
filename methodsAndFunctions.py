@@ -24,7 +24,7 @@ print(myfunc('Anthropomorphism'))
 
 # Write a function that computes the volume of a sphere given its radius.
 def vol(rad):
-    return 4 / 3 * math.pi * rad ** 3
+    return (4 / 3) * math.pi * rad ** 3
 
 
 print(vol(2))
@@ -86,6 +86,7 @@ print(multiply([1, 2, 3, -4]))
 
 # Write a Python function that checks whether a word or phrase is palindrome or not.
 def palindrome(s):
+    s = s.replace(' ', '')
     return s == s[::-1]
 
 print(palindrome('411114'))
