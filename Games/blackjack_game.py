@@ -66,7 +66,7 @@ def game_play():
                 if bet_amount > player.account.balance:
                     print(Fore.RED + "You do not have enough tokens for the bet")
                 else:
-                    print(Fore.GREEN +"Good choice!")
+                    print(Fore.GREEN + "Good choice!")
                     player.account.withdraw(bet_amount)
                     dealer.account.withdraw(bet_amount)
                     break
