@@ -18,8 +18,13 @@ def get_authors(soup):
 
     return result
 
-# TASK: Create a list of all the quotes on the first page.
+
 soup = bs4.BeautifulSoup(req_quotes.text, "lxml")
+print(get_authors(soup))
+
+
+# TASK: Create a list of all the quotes on the first page.
+
 
 quotes_tags = soup.select(".text")
 quotes = [quote.text for quote in quotes_tags]
