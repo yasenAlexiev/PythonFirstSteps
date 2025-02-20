@@ -5,11 +5,9 @@ import tkinter.font as font
 root = tk.Tk()
 style = ttk.Style(root)
 
-font.nametofont("TkDefaultFont").configure(size=15)
-font.nametofont("TkTextFont").configure(size=15)
+warningLabelFont = font.Font(family="Helvetica", size=14, weight="bold")
 
-
-name = ttk.Label(root, text="Hello world!!!")
+name = ttk.Label(root, text="Hello world!!!", font=warningLabelFont)
 entry = ttk.Entry(root, width=15)
 button = ttk.Button(root, text="Press me", style="CustomButton.TButton")
 name.pack()
