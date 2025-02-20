@@ -33,4 +33,9 @@ class UserInputFrame(ttk.Frame):
 
 
 root = HelloWorld()
+
+style = ttk.Style(root)
+print(style.theme_names())
+print(style.theme_use("clam"))
+
 root.mainloop()
