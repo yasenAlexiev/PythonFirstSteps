@@ -5,24 +5,20 @@ from tkinter import ttk
 root = tk.Tk()
 style = ttk.Style(root)
 
-style.configure("CustomEntryStyle.TEntry", padding=20)
+style.theme_use("clam")
+
+style.map("CustomButton.TButton",
+          foreground=[("pressed", "red"), ("active", "white")],
+          background=[("pressed", "!disabled", "black"), ("active", "black")],
+          font=[("pressed", ("TkDefaultFont", 15))]
+          )
 
 name = ttk.Label(root, text="Hello world!!!")
 entry = ttk.Entry(root, width=15)
-entry["style"] = "CustomEntryStyle.TEntry"
+button = ttk.Button(root, text="Press me", style="CustomButton.TButton")
 name.pack()
 entry.pack()
-
-print(style.layout("TLabel"))
-
-print(style.element_options("Label.border"))
-print(style.element_options("Label.padding"))
-print(style.element_options("Label.label"))
-
-print(style.lookup("TLabel", "font"))
-print(style.lookup("TLabel", "foreground"))
-print(style.lookup("TLabel", "compound"))
-
+button.pack()
 
 
 root.mainloop()
