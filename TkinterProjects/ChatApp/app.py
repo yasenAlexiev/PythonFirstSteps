@@ -7,6 +7,7 @@ class Messanger(tk.Tk):
         super().__init__(*argv, **kwargs)
 
         self.geometry("1200x500")
+        self.minsize(800, 500)
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
 
