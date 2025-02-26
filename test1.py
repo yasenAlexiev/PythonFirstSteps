@@ -50,3 +50,5 @@ task3()
 task4()
 task5()
 task6()
+
+input("Press enter to continue...")

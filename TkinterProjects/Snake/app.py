@@ -1,10 +1,22 @@
 import tkinter as tk
 from random import randint
 from PIL import Image, ImageTk
+import os
+import sys
 
 MOVE_INCREMENT = 20
 moves_per_second = 15
 GAME_SPEED = 1000 // moves_per_second
+
+
+def get_asset_path(relative_path):
+    """Get the absolute path to an asset, whether running from source or as an .exe."""
+    if getattr(sys, '_MEIPASS', False):  # If running from a PyInstaller bundle
+        base_path = sys._MEIPASS  # Extracted temp folder
+    else:
+        base_path = os.path.abspath(".")  # Normal execution
+
+    return os.path.join(base_path, relative_path)
 
 
 class Snake(tk.Canvas):
@@ -24,10 +36,10 @@ class Snake(tk.Canvas):
 
     def load_assets(self):
         try:
-            self.snake_body_image = Image.open("./assets/snake.png")
+            self.snake_body_image = Image.open(get_asset_path("./assets/snake.png"))
             self.snake_body = ImageTk.PhotoImage(self.snake_body_image)
 
-            self.food_image = Image.open("./assets/food.png")
+            self.food_image = Image.open(get_asset_path("./assets/food.png"))
             self.food = ImageTk.PhotoImage(self.food_image)
         except IOError as error:
             print(error)
