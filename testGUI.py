@@ -1,23 +1,44 @@
-import threading
-from time import sleep
+import tkinter as tk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+import numpy as np
 
-def func1():
-    while True:
-        sleep(1)
-        print("Working1")
 
-def func2():
-    while True:
-        sleep(1)
-        print("Working2")
+class GUI(tk.Tk):
 
-thread1 = threading.Thread(target=func1, daemon=True)
-thread2 = threading.Thread(target=func2, daemon=True)
+    def __init__(self):
+        super().__init__()
 
-print("Starting threads...")
-thread1.start()
-thread2.start()
-print("Threads started.")
-thread1.join()
-thread2.join()
-print("Threads finished.")
+        self.title("Hello World")
+        self.geometry("500x500")
+        self.createWidgets()
+
+        print(type(self))
+
+        for item in dir(self):
+            print(type(item), item)
+
+    def createWidgets(self):
+        t = np.arange(0, 3, .01)
+
+        f0 = tk.Frame()
+
+        fig = plt.figure(figsize=(8, 8))
+
+        fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
+
+        canvas = FigureCanvasTkAgg(fig, f0)
+        toolbar = NavigationToolbar2Tk(canvas, f0)
+        toolbar.update()
+        canvas._tkcanvas.pack(fill=tk.BOTH, expand=1)
+
+        f0.pack(fill=tk.BOTH, expand=1)
+
+
+def main():
+    appstart = GUI()
+    appstart.mainloop()
+
+
+if __name__ == "__main__":
+    main()

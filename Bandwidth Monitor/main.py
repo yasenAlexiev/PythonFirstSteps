@@ -1,25 +1,36 @@
-import threading
-
+import tkinter as tk
+from tkinter import ttk
 from animation import *
+from frames import LiveUpdate, Statistics
+
+class BandwidthMonitor(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.title("Bandwidth Monitor")
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
+
+        container = ttk.Frame(self)
+        container.grid()
+        container.columnconfigure(0, weight=1)
+
+        self.frames = dict()
+
+        live_updates_frame = LiveUpdate(container, lambda: self.show_frame(Statistics))
+        live_updates_frame.grid(row=0, column=0, sticky="NSEW")
+        statistics_frame = Statistics(container, lambda: self.show_frame(LiveUpdate))
+        statistics_frame.grid(row=0, column=0, sticky="NSEW")
+
+        self.frames[LiveUpdate] = live_updates_frame
+        self.frames[Statistics] = statistics_frame
+
+        self.show_frame(LiveUpdate)
+
+    def show_frame(self, container):
+        frame = self.frames[container]
+        frame.tkraise()
 
 
-def start():
-    create_database()
-    root = create_window()
-    plot_properties = create_multiplot_figure(root)
-    create_buttons(root, plot_properties)
-    print("Init threads")
-    thread1 = threading.Thread(target=update_live_data, daemon=True)
-    thread2 = threading.Thread(target=animate_live_graph, args=(plot_properties,), daemon=True)
-
-    print("Starting threads...")
-    thread1.start()
-    thread2.start()
-    print("Threads started.")
-    thread1.join()
-    thread2.join()
-    print("Threads finished.")
-    root.mainloop()
-
-
-start()
+root = BandwidthMonitor()
+root.mainloop()
