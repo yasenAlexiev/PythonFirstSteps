@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from animation import *
 from frames import LiveUpdate, Statistics
+from frames.database import create_database
 
 class BandwidthMonitor(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -16,11 +16,13 @@ class BandwidthMonitor(tk.Tk):
         container.columnconfigure(0, weight=1)
 
         self.frames = dict()
+        create_database()
 
         live_updates_frame = LiveUpdate(container, lambda: self.show_frame(Statistics))
         live_updates_frame.grid(row=0, column=0, sticky="NSEW")
         statistics_frame = Statistics(container, lambda: self.show_frame(LiveUpdate))
         statistics_frame.grid(row=0, column=0, sticky="NSEW")
+
 
         self.frames[LiveUpdate] = live_updates_frame
         self.frames[Statistics] = statistics_frame
@@ -29,6 +31,8 @@ class BandwidthMonitor(tk.Tk):
 
     def show_frame(self, container):
         frame = self.frames[container]
+        if type(frame) is Statistics:
+            frame.animate_statistics()
         frame.tkraise()
 
 

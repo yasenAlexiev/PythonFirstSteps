@@ -28,9 +28,7 @@ class GUI(tk.Tk):
         fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
 
         canvas = FigureCanvasTkAgg(fig, f0)
-        toolbar = NavigationToolbar2Tk(canvas, f0)
-        toolbar.update()
-        canvas._tkcanvas.pack(fill=tk.BOTH, expand=1)
+        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
         f0.pack(fill=tk.BOTH, expand=1)
 
