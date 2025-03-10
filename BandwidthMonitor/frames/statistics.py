@@ -50,7 +50,7 @@ class Statistics(tk.Frame):
 
     def animate_statistics(self, last_n_minutes):
         net_data = get_last_minutes_data(last_n_minutes)
-
+        print(f"Net data: {net_data}")
         past_times = list(range(len(net_data)))
         past_download_data = list(map(lambda item: item[1], net_data))
         past_upload_data = list(map(lambda item: item[2], net_data))

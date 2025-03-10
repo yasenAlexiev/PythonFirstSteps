@@ -30,9 +30,9 @@ class LiveUpdate(tk.Frame):
         self.current_step = 0
 
         statistics_button = ttk.Button(self,
-                                     text="Statistics",
-                                     command=show_statistics,
-                                     cursor="hand2")
+                                       text="Statistics",
+                                       command=show_statistics,
+                                       cursor="hand2")
         statistics_button.grid(row=0, column=1, sticky="E", padx=10, pady=10)
 
         # Plot initialization
@@ -45,18 +45,6 @@ class LiveUpdate(tk.Frame):
         toolbar.grid(row=2, column=0, columnspan=2)
 
         self.update_live_data()
-
-    def draw(self):
-        self.ax.clear()
-        self.ax.plot(self.times, self.download_data, label="Download Speed (Mbps)", color='blue')
-        self.ax.plot(self.times, self.upload_data, label="Upload Speed (Mbps)", color='red')
-        self.ax.set_xlabel("Time (seconds)")
-        self.ax.set_ylabel("Speed (Mbps)")
-        self.ax.set_title("Real-Time Bandwidth Usage")
-        self.ax.legend()
-        self.ax.grid(True)
-
-        self.canvas.draw()
 
     def update_live_data(self):
         past_net_info = self.current_net_info
