@@ -5,11 +5,12 @@ import datetime
 DATABASE_NAME = "internet_log.db"
 DATE_FORMAT = "%Y-%m-%d-%H-%M-%S"
 
+
 def create_database():
     conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
 
-    cursor.execute("""CREATE TABLE internet_speeds (
+    cursor.execute("""CREATE TABLE IF NOT EXISTS internet_speeds (
         date DATETIME,
         download_speed REAL,
         upload_speed REAL
@@ -28,6 +29,7 @@ def commit_data(date, download_speed, upload_speed):
     conn.commit()
     conn.close()
 
+
 def get_last_minutes_data(minutes_delta):
     conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
@@ -37,10 +39,6 @@ def get_last_minutes_data(minutes_delta):
 
     cursor.execute("SELECT * FROM internet_speeds WHERE date >= ?", (minutes_ago,))
     rows = cursor.fetchall()
-
-    print(f"Logs from the last {minutes_delta} ago:")
-    for row in rows:
-        print(row)
 
     conn.close()
     return rows

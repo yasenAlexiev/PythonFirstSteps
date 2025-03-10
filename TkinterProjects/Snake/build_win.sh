@@ -14,4 +14,4 @@ if [ -f "$APP_SPEC" ]; then
 fi
 
 
-pyinstaller app.py --add-data "assets;assets"
+pyinstaller app.py --add-data "assets;assets" --windowed

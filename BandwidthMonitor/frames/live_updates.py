@@ -1,5 +1,4 @@
 from frames.database import get_last_minutes_data, DATE_FORMAT, commit_data, read_data
-
 import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
@@ -7,6 +6,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from collections import deque
 import psutil
 from datetime import datetime
+
+from frames.animation import draw
 
 # Number of data points to show on the graph
 MAX_POINTS = 60
@@ -22,7 +23,6 @@ class LiveUpdate(tk.Frame):
         # Initialize data storage (FIFO queue for smooth scrolling effect)
         self.current_net_info = psutil.net_io_counters()
         self.times = deque(range(0, MAX_POINTS), maxlen=MAX_POINTS)
-        print(f"Times: {self.times}")
         self.upload_data = deque([0] * MAX_POINTS, maxlen=MAX_POINTS)
         self.download_data = deque([0] * MAX_POINTS, maxlen=MAX_POINTS)
         self.sum_for_hour_download = 0
@@ -50,9 +50,6 @@ class LiveUpdate(tk.Frame):
         self.ax.clear()
         self.ax.plot(self.times, self.download_data, label="Download Speed (Mbps)", color='blue')
         self.ax.plot(self.times, self.upload_data, label="Upload Speed (Mbps)", color='red')
-        print(f"Times: {self.times}")
-        print(f"Upload speed: {self.upload_data}")
-        print(f"Download speed: {self.download_data}")
         self.ax.set_xlabel("Time (seconds)")
         self.ax.set_ylabel("Speed (Mbps)")
         self.ax.set_title("Real-Time Bandwidth Usage")
@@ -61,7 +58,6 @@ class LiveUpdate(tk.Frame):
 
         self.canvas.draw()
 
-
     def update_live_data(self):
         past_net_info = self.current_net_info
         self.current_net_info = psutil.net_io_counters()
@@ -69,20 +65,19 @@ class LiveUpdate(tk.Frame):
         upload_bytes_per_second = self.current_net_info.bytes_sent - past_net_info.bytes_sent
         download_bytes_per_second = self.current_net_info.bytes_recv - past_net_info.bytes_recv
 
-        if upload_bytes_per_second > 300:
-            self.upload_data.append(upload_bytes_per_second / BITS_TO_MEGABYTE)
-            self.download_data.append(download_bytes_per_second / BITS_TO_MEGABYTE)
-        else:
-            self.upload_data.append(upload_bytes_per_second / BITS_TO_KILOBYTE)
-            self.download_data.append(download_bytes_per_second / BITS_TO_KILOBYTE)
+        self.upload_data.append(upload_bytes_per_second / BITS_TO_KILOBYTE)
+        self.download_data.append(download_bytes_per_second / BITS_TO_KILOBYTE)
 
-        self.draw()
+        draw(
+            self.ax,
+            self.canvas,
+            self.times,
+            self.download_data,
+            self.upload_data)
 
         if self.current_step % MAX_POINTS == 0:
             self.sum_for_hour_download += sum(self.download_data)
             self.sum_for_hour_upload += sum(self.upload_data)
-
-        if self.current_step % MAX_POINTS == 0:
             self.log_information()
             self.sum_for_hour_download = 0
             self.sum_for_hour_upload = 0
@@ -92,8 +87,4 @@ class LiveUpdate(tk.Frame):
 
     def log_information(self):
         date = datetime.now().strftime(DATE_FORMAT)
-
         commit_data(date, self.sum_for_hour_download, self.sum_for_hour_upload)
-
-        read_data()
-        get_last_minutes_data(5)
