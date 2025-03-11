@@ -1,3 +1,6 @@
+import numpy as np
+
+from frames.style_constants import *
 BITS_TO_MEGABYTE = 125 ** 2
 BITS_TO_GIGABYTE = 125 ** 3
 
@@ -24,23 +27,21 @@ def draw(ax, canvas, times, download_data, upload_data):
         label_upload_speed_string += "(Kbps)"
         label_speed_string += "(Kbps)"
 
-    ax.clear()
-    ax.plot(times, download_data, label=label_download_speed_string, color='blue')
-    ax.plot(times, upload_data, label=label_upload_speed_string, color='red')
-    ax.set_xlabel("Time (seconds)")
-    ax.set_ylabel(label_speed_string)
+    ax.plot(times, download_data, label=label_download_speed_string, color='#47bef5')
+    ax.plot(times, upload_data, label=label_upload_speed_string, color='#6330c9')
+    ax.set_xlabel("Time (seconds)", color=COLOUR_LIGHT_TEXT)
+    ax.set_ylabel(label_speed_string, color=COLOUR_LIGHT_TEXT)
+    ax.tick_params(axis='y', colors=COLOUR_LIGHT_TEXT)
+    # Generate evenly spaced tick positions across the length of the data
+    num_ticks = min(len(times), 10)  # Limit to a maximum of 10 ticks for readability
+    tick_positions = np.linspace(0, len(times) - 1, num_ticks, dtype=int)
+    tick_labels = [times[i] for i in tick_positions]  # Selecting labels at calculated positions
 
-    num_points = len(times)  # Current number of points
-    print(f"num_points: {num_points}")
-    x_ticks = list(range(0, num_points, 5))  # Tick positions match indexes
-    x_labels = x_ticks[::-1]  # Countdown from 60
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels[::-1], color=COLOUR_LIGHT_TEXT)
 
-    print(f"x_ticks: {x_ticks}")
-    print(f"x_labels: {x_labels}")
-    ax.set_xticks(x_ticks)  # Set tick positions
-    ax.set_xticklabels(x_labels)  # Set countdown labels
-
-    ax.set_title("Real-Time Bandwidth Usage")
+    ax.set_facecolor(COLOUR_PRIMARY)
+    ax.patch.set_facecolor(COLOUR_PRIMARY)
     ax.legend()
     ax.grid(True)
 

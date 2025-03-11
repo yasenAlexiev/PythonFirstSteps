@@ -3,12 +3,34 @@ from tkinter import ttk
 from frames import LiveUpdate, Statistics
 from frames.database import create_database
 
+from frames.style_constants import *
 
 class BandwidthMonitor(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.title("Bandwidth Monitor")
+        style = ttk.Style(self)
+        style.theme_use("clam")
+        style.configure("Monitor.TFrame", background=COLOUR_LIGHT_BACKGROUND)
+        style.configure("Background.TFrame", background=COLOUR_PRIMARY)
+        style.configure("MonitorText.TLabel",
+                        background=COLOUR_LIGHT_BACKGROUND,
+                        foreground=COLOUR_DARK_TEXT,
+                        font="Courier 38")
+
+        style.configure("LightText.TLabel",
+                        background=COLOUR_PRIMARY,
+                        foreground=COLOUR_LIGHT_TEXT)
+
+        style.configure("MonitorButton.TButton",
+                        background=COLOUR_SECONDARY,
+                        foreground=COLOUR_LIGHT_TEXT)
+
+        self["background"] = COLOUR_PRIMARY
+
+
+
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
 

@@ -5,35 +5,37 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from frames.database import get_last_minutes_data
 
 from frames.animation import draw
+from frames.style_constants import *
 
 
-class Statistics(tk.Frame):
+class Statistics(ttk.Frame):
     def __init__(self, master, show_live_updates):
         super().__init__(master)
 
-        live_updates_button = ttk.Button(self,
+        self["style"] = "Background.TFrame"
+
+        statistics_frame = ttk.Frame(self, style="Monitor.TFrame")
+        statistics_frame.grid(row=0, column=0, columnspan=2, pady=(10, 0), sticky="NSEW")
+
+        live_updates_button = ttk.Button(statistics_frame,
                                          text="Live Updates",
                                          command=show_live_updates,
+                                         style="MonitorButton.TButton",
                                          cursor="hand2")
         live_updates_button.grid(row=0, column=0, sticky="W", padx=10, pady=10)
 
         self.statistics_option = tk.StringVar(self)
         self.menu_options = ("Last 5 minutes", "Last 1 hour", "Last 12 hours", "Last 24 hours")
         option_menu = ttk.OptionMenu(self, self.statistics_option, self.menu_options[0], *self.menu_options,
-                                     command=self.options_changed)
+                                     command=self.options_changed, style="MonitorButton.TButton")
         option_menu.grid(row=0, column=1, sticky="E", padx=10, pady=10)
 
-        live_updates_frame = ttk.Frame(self, height="100")
-        live_updates_frame.grid(row=2, column=0, columnspan=2, pady=(10, 0), sticky="NSEW")
 
         # Plot initialization
         self.fig, self.ax = plt.subplots(figsize=(6, 4))
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.fig.patch.set_facecolor(COLOUR_PRIMARY)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=statistics_frame)
         self.canvas.get_tk_widget().grid(row=1, column=0, columnspan=2, pady=10, padx=10)
-
-        # Toolbar (Optional, remove if not needed)
-        toolbar = NavigationToolbar2Tk(self.canvas, self, pack_toolbar=False)
-        toolbar.grid(row=2, column=0, columnspan=2)
 
         self.animate_statistics(5)
 
@@ -55,6 +57,8 @@ class Statistics(tk.Frame):
         past_download_data = list(map(lambda item: item[1], net_data))
         past_upload_data = list(map(lambda item: item[2], net_data))
 
+        self.ax.clear()
+        self.ax.set_title("Statistics", color=COLOUR_LIGHT_TEXT)
         draw(
             self.ax,
             self.canvas,

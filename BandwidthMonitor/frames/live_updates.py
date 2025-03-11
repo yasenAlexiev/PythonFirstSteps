@@ -1,4 +1,3 @@
-from frames.database import get_last_minutes_data, DATE_FORMAT, commit_data, read_data
 import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
@@ -7,7 +6,10 @@ from collections import deque
 import psutil
 from datetime import datetime
 
+from frames.database import get_last_minutes_data, DATE_FORMAT, commit_data, read_data
 from frames.animation import draw
+
+from frames.style_constants import *
 
 # Number of data points to show on the graph
 MAX_POINTS = 60
@@ -16,11 +18,15 @@ BITS_TO_KILOBYTE = 125
 BITS_TO_MEGABYTE = 125 ** 2
 
 
-class LiveUpdate(tk.Frame):
+class LiveUpdate(ttk.Frame):
     def __init__(self, master, show_statistics):
         super().__init__(master)
 
-        # Initialize data storage (FIFO queue for smooth scrolling effect)
+        self["style"] = "Background.TFrame"
+
+        live_update_frame = ttk.Frame(self, style="Monitor.TFrame")
+        live_update_frame.grid(row=0, column=0, columnspan=2, pady=(10, 0), sticky="NSEW")
+
         self.current_net_info = psutil.net_io_counters()
         self.times = deque(range(0, MAX_POINTS), maxlen=MAX_POINTS)
         self.upload_data = deque([0] * MAX_POINTS, maxlen=MAX_POINTS)
@@ -29,20 +35,18 @@ class LiveUpdate(tk.Frame):
         self.sum_for_hour_upload = 0
         self.current_step = 0
 
-        statistics_button = ttk.Button(self,
+        statistics_button = ttk.Button(live_update_frame,
                                        text="Statistics",
                                        command=show_statistics,
+                                       style="MonitorButton.TButton",
                                        cursor="hand2")
         statistics_button.grid(row=0, column=1, sticky="E", padx=10, pady=10)
 
         # Plot initialization
         self.fig, self.ax = plt.subplots(figsize=(6, 4))
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.fig.patch.set_facecolor(COLOUR_PRIMARY)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=live_update_frame)
         self.canvas.get_tk_widget().grid(row=1, column=0, columnspan=2, pady=10, padx=10)
-
-        # Toolbar (Optional, remove if not needed)
-        toolbar = NavigationToolbar2Tk(self.canvas, self, pack_toolbar=False)
-        toolbar.grid(row=2, column=0, columnspan=2)
 
         self.update_live_data()
 
@@ -56,6 +60,8 @@ class LiveUpdate(tk.Frame):
         self.upload_data.append(upload_bytes_per_second / BITS_TO_KILOBYTE)
         self.download_data.append(download_bytes_per_second / BITS_TO_KILOBYTE)
 
+        self.ax.clear()
+        self.ax.set_title("Real-Time Bandwidth Usage", color=COLOUR_LIGHT_TEXT)
         draw(
             self.ax,
             self.canvas,
