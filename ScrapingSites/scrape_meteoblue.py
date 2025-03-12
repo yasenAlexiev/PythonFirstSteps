@@ -1,5 +1,5 @@
-import requests
 import bs4
+import requests
 
 python_req = requests.get("https://www.meteoblue.com/en/weather/week/sofia_bulgaria_727011")
 

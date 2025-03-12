@@ -1,7 +1,8 @@
 import tkinter as tk
-from frames.chat import Chat
-from tkinter import ttk
 import tkinter.font as font
+from tkinter import ttk
+
+from frames.chat import Chat
 
 COLOUR_LIGHT_BACKGROUND_1 = "#fff"
 COLOUR_LIGHT_BACKGROUND_2 = "#f2f3f5"

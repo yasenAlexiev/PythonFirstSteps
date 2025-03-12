@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+
 import requests
 from frames.message_window import MessageWindow
 

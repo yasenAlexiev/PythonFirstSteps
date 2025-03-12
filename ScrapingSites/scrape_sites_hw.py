@@ -1,6 +1,6 @@
 # TASK: Import any libraries you think you'll need to scrape a website.
-import requests
 import bs4
+import requests
 
 # TASK: Use requests library and BeautifulSoup to connect to http://quotes.toscrape.com/
 # and get the HMTL text from the homepage.

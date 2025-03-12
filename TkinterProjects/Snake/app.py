@@ -1,8 +1,9 @@
-import tkinter as tk
-from random import randint
-from PIL import Image, ImageTk
 import os
 import sys
+import tkinter as tk
+from random import randint
+
+from PIL import Image, ImageTk
 
 MOVE_INCREMENT = 20
 moves_per_second = 15

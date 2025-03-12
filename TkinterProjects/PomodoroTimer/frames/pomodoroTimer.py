@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
 from collections import deque
+from tkinter import ttk
 
 
 class Timer(ttk.Frame):

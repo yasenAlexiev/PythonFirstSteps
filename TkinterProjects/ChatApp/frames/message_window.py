@@ -1,7 +1,7 @@
+import datetime
 import tkinter as tk
 from tkinter import ttk
 
-import datetime
 from PIL import Image, ImageTk
 
 MAX_MESSAGE_WIDTH = 800

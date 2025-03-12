@@ -1,6 +1,7 @@
 import csv
-import PyPDF2
 import re
+
+import PyPDF2
 
 # PDFs and Spreadsheets Puzzle Exercise
 

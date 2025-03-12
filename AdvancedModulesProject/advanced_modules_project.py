@@ -1,7 +1,6 @@
-import zipfile
 import os
 import re
-
+import zipfile
 
 # Good work on unzipping the file!
 # You should now see 5 folders, each with a lot of random .txt files.

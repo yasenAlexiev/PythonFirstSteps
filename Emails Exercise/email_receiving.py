@@ -1,5 +1,5 @@
-import imaplib
 import email
+import imaplib
 
 M = imaplib.IMAP4_SSL("imap.gmail.com")
 

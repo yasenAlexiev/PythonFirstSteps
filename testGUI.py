@@ -1,7 +1,8 @@
 import tkinter as tk
+
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class GUI(tk.Tk):

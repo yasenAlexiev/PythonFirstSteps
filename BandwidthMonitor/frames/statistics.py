@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from frames.database import get_last_minutes_data
 
+import matplotlib.pyplot as plt
 from frames.animation import draw
+from frames.database import get_last_minutes_data
 from frames.style_constants import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class Statistics(ttk.Frame):

@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter as ttk
 import tkinter.font as font
+
 from windows import set_dpi_awareness
 
 set_dpi_awareness()

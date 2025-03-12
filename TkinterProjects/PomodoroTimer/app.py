@@ -1,8 +1,10 @@
 import tkinter as tk
-from tkinter import ttk
 from collections import deque
+from tkinter import ttk
+
 from frames import Timer, Settings
 from windows import set_dpi_awareness
+
 set_dpi_awareness()
 
 COLOUR_PRIMARY = "#2e3f4f"

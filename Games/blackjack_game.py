@@ -1,5 +1,6 @@
-from GameObjects.GameObjects import *
 from colorama import Fore
+
+from GameObjects.GameObjects import *
 
 
 class BlackjackPlayer(Player):

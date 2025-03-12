@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+
 from frames import LiveUpdate, Statistics
 from frames.database import create_database
-
 from frames.style_constants import *
+
 
 class BandwidthMonitor(tk.Tk):
     def __init__(self, *args, **kwargs):

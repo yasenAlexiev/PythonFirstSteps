@@ -1,18 +1,19 @@
-import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from collections import deque
-import psutil
 from datetime import datetime
+from tkinter import ttk
 
-from frames.database import get_last_minutes_data, DATE_FORMAT, commit_data, read_data
+import matplotlib.pyplot as plt
+import psutil
 from frames.animation import draw
-
+from frames.database import DATE_FORMAT, commit_data, delete_unnecessary_data
 from frames.style_constants import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Number of data points to show on the graph
 MAX_POINTS = 60
+SECONDS_IN_HOUR = 3600
 BITS_TO_KILOBYTE = 125
 BITS_TO_MEGABYTE = 125 ** 2
 
@@ -72,6 +73,9 @@ class LiveUpdate(ttk.Frame):
             self.log_information()
             self.sum_for_hour_download = 0
             self.sum_for_hour_upload = 0
+
+        if self.current_step % SECONDS_IN_HOUR == 0:
+            delete_unnecessary_data()
 
         self.current_step += 1
         self.after(1000, self.update_live_data)
