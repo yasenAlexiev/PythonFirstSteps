@@ -13,11 +13,9 @@ class Statistics(ttk.Frame):
         super().__init__(master)
 
         self["style"] = "Background.TFrame"
-
-        statistics_frame = ttk.Frame(self, style="Monitor.TFrame")
-        statistics_frame.grid(row=0, column=0, columnspan=2, pady=(10, 0), sticky="NSEW")
-
-        live_updates_button = ttk.Button(statistics_frame,
+        self["borderwidth"] = 5
+        self["relief"] = "ridge"
+        live_updates_button = ttk.Button(self,
                                          text="Live Updates",
                                          command=show_live_updates,
                                          style="MonitorButton.TButton",
@@ -34,7 +32,7 @@ class Statistics(ttk.Frame):
         # Plot initialization
         self.fig, self.ax = plt.subplots(figsize=(6, 4))
         self.fig.patch.set_facecolor(COLOUR_PRIMARY)
-        self.canvas = FigureCanvasTkAgg(self.fig, master=statistics_frame)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.get_tk_widget().grid(row=1, column=0, columnspan=2, pady=10, padx=10)
 
         self.animate_statistics(5)
@@ -52,8 +50,8 @@ class Statistics(ttk.Frame):
 
     def animate_statistics(self, last_n_minutes):
         net_data = get_last_minutes_data(last_n_minutes)
-        print(f"Net data: {net_data}")
-        past_times = list(range(len(net_data)))
+
+        past_times_data = list(map(lambda item: str(item[0])[11:16].replace("-", ":"), net_data))[::-1]
         past_download_data = list(map(lambda item: item[1], net_data))
         past_upload_data = list(map(lambda item: item[2], net_data))
 
@@ -62,6 +60,6 @@ class Statistics(ttk.Frame):
         draw(
             self.ax,
             self.canvas,
-            past_times,
+            past_times_data,
             past_download_data,
             past_upload_data)

@@ -27,10 +27,12 @@ def draw(ax, canvas, times, download_data, upload_data):
         label_upload_speed_string += "(Kbps)"
         label_speed_string += "(Kbps)"
 
-    ax.plot(times, download_data, label=label_download_speed_string, color='#47bef5')
-    ax.plot(times, upload_data, label=label_upload_speed_string, color='#6330c9')
-    ax.set_xlabel("Time (seconds)", color=COLOUR_LIGHT_TEXT)
+    ax.plot(times, download_data, label=label_download_speed_string, color=COLOUR_DOWNLOAD_DATA)
+    ax.plot(times, upload_data, label=label_upload_speed_string, color=COLOUR_UPLOAD_DATA)
+
+    ax.set_xlabel("Time", color=COLOUR_LIGHT_TEXT)
     ax.set_ylabel(label_speed_string, color=COLOUR_LIGHT_TEXT)
+
     ax.tick_params(axis='y', colors=COLOUR_LIGHT_TEXT)
     # Generate evenly spaced tick positions across the length of the data
     num_ticks = min(len(times), 10)  # Limit to a maximum of 10 ticks for readability

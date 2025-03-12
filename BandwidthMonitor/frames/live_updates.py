@@ -13,7 +13,6 @@ from frames.style_constants import *
 
 # Number of data points to show on the graph
 MAX_POINTS = 60
-SECONDS_ON_GRAPH = 60
 BITS_TO_KILOBYTE = 125
 BITS_TO_MEGABYTE = 125 ** 2
 
@@ -23,10 +22,8 @@ class LiveUpdate(ttk.Frame):
         super().__init__(master)
 
         self["style"] = "Background.TFrame"
-
-        live_update_frame = ttk.Frame(self, style="Monitor.TFrame")
-        live_update_frame.grid(row=0, column=0, columnspan=2, pady=(10, 0), sticky="NSEW")
-
+        self["borderwidth"] = 5
+        self["relief"] = "ridge"
         self.current_net_info = psutil.net_io_counters()
         self.times = deque(range(0, MAX_POINTS), maxlen=MAX_POINTS)
         self.upload_data = deque([0] * MAX_POINTS, maxlen=MAX_POINTS)
@@ -35,7 +32,7 @@ class LiveUpdate(ttk.Frame):
         self.sum_for_hour_upload = 0
         self.current_step = 0
 
-        statistics_button = ttk.Button(live_update_frame,
+        statistics_button = ttk.Button(self,
                                        text="Statistics",
                                        command=show_statistics,
                                        style="MonitorButton.TButton",
@@ -45,7 +42,7 @@ class LiveUpdate(ttk.Frame):
         # Plot initialization
         self.fig, self.ax = plt.subplots(figsize=(6, 4))
         self.fig.patch.set_facecolor(COLOUR_PRIMARY)
-        self.canvas = FigureCanvasTkAgg(self.fig, master=live_update_frame)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.get_tk_widget().grid(row=1, column=0, columnspan=2, pady=10, padx=10)
 
         self.update_live_data()

@@ -27,6 +27,10 @@ class BandwidthMonitor(tk.Tk):
                         background=COLOUR_SECONDARY,
                         foreground=COLOUR_LIGHT_TEXT)
 
+        style.map("MonitorButton.TButton",
+                  background=[("active", COLOUR_LIGHT_TEXT)],  # Keep background the same on hover
+                  foreground=[("active", COLOUR_SECONDARY)])  # Keep text color the same
+
         self["background"] = COLOUR_PRIMARY
 
 
