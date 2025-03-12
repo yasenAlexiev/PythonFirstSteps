@@ -30,7 +30,7 @@ class Statistics(ttk.Frame):
 
 
         # Plot initialization
-        self.fig, self.ax = plt.subplots(figsize=(6, 4))
+        self.fig, self.axis = plt.subplots(figsize=(6, 4))
         self.fig.patch.set_facecolor(COLOUR_PRIMARY)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.get_tk_widget().grid(row=1, column=0, columnspan=2, pady=10, padx=10)
@@ -55,10 +55,10 @@ class Statistics(ttk.Frame):
         past_download_data = list(map(lambda item: item[1], net_data))
         past_upload_data = list(map(lambda item: item[2], net_data))
 
-        self.ax.clear()
-        self.ax.set_title("Statistics", color=COLOUR_LIGHT_TEXT)
+        self.axis.clear()
+        self.axis.set_title("Statistics", color=COLOUR_LIGHT_TEXT)
         draw(
-            self.ax,
+            self.axis,
             self.canvas,
             past_times_data,
             past_download_data,

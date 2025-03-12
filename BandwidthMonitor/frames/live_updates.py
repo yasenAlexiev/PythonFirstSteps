@@ -41,7 +41,7 @@ class LiveUpdate(ttk.Frame):
         statistics_button.grid(row=0, column=1, sticky="E", padx=10, pady=10)
 
         # Plot initialization
-        self.fig, self.ax = plt.subplots(figsize=(6, 4))
+        self.fig, self.axis = plt.subplots(figsize=(6, 4))
         self.fig.patch.set_facecolor(COLOUR_PRIMARY)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.get_tk_widget().grid(row=1, column=0, columnspan=2, pady=10, padx=10)
@@ -58,10 +58,10 @@ class LiveUpdate(ttk.Frame):
         self.upload_data.append(upload_bytes_per_second / BITS_TO_KILOBYTE)
         self.download_data.append(download_bytes_per_second / BITS_TO_KILOBYTE)
 
-        self.ax.clear()
-        self.ax.set_title("Real-Time Bandwidth Usage", color=COLOUR_LIGHT_TEXT)
+        self.axis.clear()
+        self.axis.set_title("Real-Time Bandwidth Usage", color=COLOUR_LIGHT_TEXT)
         draw(
-            self.ax,
+            self.axis,
             self.canvas,
             self.times,
             self.download_data,
